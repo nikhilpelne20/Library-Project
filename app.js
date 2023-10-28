@@ -30,14 +30,18 @@ function displayBook(Book){
     bookPages.textContent = `${Book.pages} pages`
 
     var readBook = document.createElement('button')
+    readBook.classList = 'read-btn';
     readBook.textContent = Book.read ? "read" : "Not read";
+    readBook.style.backgroundColor = Book.read ? '#4caf4f3e' : '#bf3e3e3e';
 
     readBook.addEventListener('click',function(){
         Book.toggleReadStatus()
         readBook.textContent = Book.read ? "read" : "Not read";
+        readBook.style.backgroundColor = Book.read ? '#4caf4f3e' : '#bf3e3e3e';
     })
 
     var removeBook = document.createElement('button')
+    removeBook.classList= 'remove-btn'
     removeBook.textContent = "Remove Book"
 
     removeBook.addEventListener('click', function(){
