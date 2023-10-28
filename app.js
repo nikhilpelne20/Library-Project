@@ -9,12 +9,9 @@ function Book(title, author, pages, read = false) {
 
 const Book1 = new Book("A Passage to India", "E.M. Forster", 234, true);
 const Book2 = new Book("Far from the Madding Crowd","Thomas Hardy", 321, false)
-const Book3 = new Book("The Merchant of Venice","Shakespeare", 411, true)
-const Book4 = new Book("The Merchant of Venice","Shakespeare", 411, true)
+
 myLibrary.push(Book1);
 myLibrary.push(Book2);
-myLibrary.push(Book3);
-myLibrary.push(Book4)
 
 
 function displayBook(Book){
@@ -32,19 +29,65 @@ function displayBook(Book){
     var bookPages = document.createElement('p')
     bookPages.textContent = `${Book.pages} pages`
 
+    var readBook = document.createElement('button')
+    readBook.textContent = Book.read ? "read" : "Not read";
+
+    readBook.addEventListener('click',function(){
+        Book.read = !Book.read;
+        readBook.textContent = Book.read ? "read" : "Not read";
+    })
+
+    var removeBook = document.createElement('button')
+    removeBook.textContent = "Remove Book"
+
+    removeBook.addEventListener('click', function(){
+        var index = myLibrary.indexOf(Book)
+        if (index !== -1) {
+            myLibrary.splice(index, 1); // Remove the book from the array
+            bookCard.remove()
+        }
+    })
+
     var cardBody = document.getElementById("cardContainer")
     bookCard.appendChild(bookTitle)
     bookCard.appendChild(bookAuthor)
     bookCard.appendChild(bookPages)
+    bookCard.appendChild(readBook)
+    bookCard.appendChild(removeBook)
     cardBody.appendChild(bookCard)
 }
 
-function addBookToLibrary() {
+var popupForm = document.getElementById("popupForm")
 
+popupForm.addEventListener("submit",function(event){
+    event.preventDefault();
+    var bookName = document.getElementById("bookName").value;
+    var bookAuthor = document.getElementById("bookAuthor").value;
+    var pages = document.getElementById("pages").value;
+    var readStatus = document.getElementById("readStatus").checked;
+    console.log(bookName,bookAuthor,pages,readStatus)
+    toggle()
+
+    var book = new Book(bookName,bookAuthor,pages,readStatus)
+    myLibrary.push(book)
+
+    document.getElementById("popupForm").reset();
+
+    // Clear the existing card display
+    var cardContainer = document.getElementById("cardContainer");
+    cardContainer.innerHTML = '';
+
+    //re populate the books
+    myLibrary.forEach(Book=>{
+        displayBook(Book)
+    })
+})
+
+function toggle(){
+    var formOpen = document.getElementById("popup")
+    formOpen.style.display = (popup.style.display === "block") ? "none" : "block";
 }
 
 myLibrary.forEach(Book => {
     displayBook(Book)
 });
-
-// displayBook()

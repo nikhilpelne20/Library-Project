@@ -15,8 +15,7 @@ body{
 }
 
 .navbar{
-    display: none;
-    /* display: flex; */
+    display: flex;
     justify-content: space-between;
     padding: 25px 180px 20px 180px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.233);
@@ -63,10 +62,9 @@ body{
 
 
 .cardContainer{
-    display: none;
     padding: 25px 180px 20px 180px;
     justify-items: center;
-    /* display: grid; */
+    display: grid;
     row-gap: 20px;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -81,16 +79,18 @@ body{
 }
 
 .title-heading{
+    font-weight: 500;
     font-size: 1.5rem;
 }
 
 .author-heading{
+    margin-top: 30px;
     font-style: italic;
 }
 
 
 .popup{
-    /* display: none; */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
