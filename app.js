@@ -33,7 +33,7 @@ function displayBook(Book){
     readBook.textContent = Book.read ? "read" : "Not read";
 
     readBook.addEventListener('click',function(){
-        Book.read = !Book.read;
+        Book.toggleReadStatus()
         readBook.textContent = Book.read ? "read" : "Not read";
     })
 
@@ -55,6 +55,10 @@ function displayBook(Book){
     bookCard.appendChild(readBook)
     bookCard.appendChild(removeBook)
     cardBody.appendChild(bookCard)
+}
+
+Book.prototype.toggleReadStatus = function(){
+    this.read = !this.read
 }
 
 var popupForm = document.getElementById("popupForm")
