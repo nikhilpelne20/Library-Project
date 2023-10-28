@@ -17,6 +17,23 @@
         <div class="add-btn">
             <button id="createCardButton" onclick="toggle()">+ AddBook</button>
         </div>
+        <div class="popup" id="popup">
+            <div class="popup-container">
+                <span id="closePopup" class="close-popup" onclick="toggle()">&times;</span>
+            <h2>Add New Book</h2>
+            <form id="popupForm">
+                <label for="bookname">Book Name:</label>
+                <input type="text" id="bookname" name="bookName" required>
+                <label for="bookauthor">Author:</label>
+                <input type="text" id="bookauthor" name="bookAuthor" required>
+                <label for="pages">Pages:</label>
+                <input type="number" id="pages" name="totalPages" required>
+                <label>Read Status:</label>
+                <input type="checkbox" id="readStatus" name="readStatus"> Read
+                <div class="form-btn"><input type="submit" value="Submit"></div>
+            </form>
+        </div>
+        </div>
         <div id="cardContainer" class="cardContainer">
 
         </div>
