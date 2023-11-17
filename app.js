@@ -1,10 +1,12 @@
 const myLibrary = [];
 
-function Book(title, author, pages, read = false) {
+class Book {
+    constructor(title,author,pages,read=false){
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+    }
 }
 
 const Book1 = new Book("A Passage to India", "E.M. Forster", 234, true);
