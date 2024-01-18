@@ -28,8 +28,6 @@ function updateLocalStorage(){
 }
 
 
-
-
 myLibrary.forEach((Book) => {
   createBookCard(Book);
 });
@@ -38,19 +36,23 @@ myLibrary.forEach((Book) => {
 function createBookCard(book) {
   const bookCardSection = document.getElementById("cardContainer");
   const readButtonText = book.getRead() ? "Read" : "Not Read";
+  const bgColor = book.getRead() ? '#4caf4f3e' : '#bf3e3e3e';
+  
   bookCardSection.innerHTML += 
   `<div class="card-section">
+  <div class="book-info">
     <div class="bookTitle">
         <h2>${book.title}</h2>
     </div>
     <div class="bookAuthor">
-        <p>${book.author}</p>
+        <p>- ${book.author}</p>
     </div>
     <div class="totalPages">
         <p>${book.pages}</p>
     </div>
+    </div>
     <div class="book-btn">
-        <button id="read-btn" read-btn-data>${readButtonText}</button>
+        <button id="read-btn" read-btn-data  style="background-color: ${bgColor}">${readButtonText}</button>
         <button id="remove-btn" remove-btn-data>Remove Book</button>
     </div>
 </div>`;
@@ -79,6 +81,7 @@ function toggleRead(e){
 
     const readBtn = cardDiv.querySelector('#read-btn');
     readBtn.textContent = myLibrary[index].getRead() ? 'Read' : 'Not Read';
+    readBtn.style.backgroundColor = myLibrary[index].getRead() ? '#4caf4f3e' : '#bf3e3e3e';
     
 }
 
@@ -112,12 +115,13 @@ popupForm.addEventListener("submit", function (event) {
   const bookAuthor = document.getElementById("bookAuthor").value;
   const pages = document.getElementById("pages").value;
   const readStatus = document.getElementById("readStatus").checked;
-//   console.log(bookName, bookAuthor, pages, readStatus);
   toggle();
 
   let book = new Book(bookName, bookAuthor, pages, readStatus);
   myLibrary.push(book)
   updateLocalStorage()
+
+
 
   document.getElementById("popupForm").reset();
   clearAllBooks()

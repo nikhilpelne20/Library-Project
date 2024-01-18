@@ -12,11 +12,14 @@ body{
     --btn-hover-color:rgba(102, 51, 153, 0.266);
     --btn-card:#4caf4f3e;
     --btn-not-read:#bf3e3e3e;
+    --card-bg-color:rgba(188, 120, 255, 0.11);
+    --bold-txt-color:rgb(102, 51, 153);
 }
 
 .container{
     /* padding: 25px 180px 20px 180px; */
     /* width: 100%; */
+    border-color: #F5EEE6;
     height: 100%;
 }
 
@@ -31,7 +34,7 @@ body{
 .navbar .logo{
     font-size: 2rem;
     font-weight: 600;
-    color: rgb(102, 51, 153);
+    color: var(--bold-txt-color);
 }
 
 .navbar button{
@@ -50,16 +53,18 @@ body{
 .add-btn{
     display: flex;
     justify-content: center;
+   
 }
 
 .add-btn button{
     background-color: #fff;
     font-size: 2rem;
     margin-top: 40px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     padding: 10px 20px 10px 20px;
     border-radius: 7px;
     border: none;
+    color: var(--bold-txt-color);
 }
 
 .add-btn button:hover{
@@ -67,56 +72,59 @@ body{
     cursor: pointer;
 }
 
-
 .cardContainer{
-    width: 100%;
-    padding: 25px 180px 20px 180px;
-    justify-items: center;
     display: grid;
-    row-gap: 50px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 300px 300px 300px;
+    margin: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    gap: 50px;
 }
 
-.card {
-    background-color: rgba(204, 199, 199, 0.11);
+.card-section{
+    padding: 10px;
     width: 300px;
     height: 250px;
+    border-radius: 5px;
+    display: flex;
+    background-color: var(--card-bg-color);
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.book-info{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 10px 20px;
-    align-items: center;
-    border-radius: 7px;
-    box-shadow: 0px 0px 10px rgba(102, 51, 153, 0.266); /* Horizontal and vertical offset, blur radius, and color */
+    text-align: center;
 }
 
-.title-heading{
-    font-weight: 500;
-    font-size: 1.5rem;
+.bookTitle{
+    font-size: 0.8rem;
+    height: 80px;
 }
 
-.author-heading{
-    /* margin-top: 30px; */
+.bookAuthor{
+    height: 30px;
     font-style: italic;
 }
 
-
-.read-btn{
-    width:100%;
-    padding: 10px 5px 10px 5px;
-    border: none;
-    font-size: 1.2rem;
-    border-radius: 10px;
-
+.totalPages{
+    font-weight: 500;
+    height: 50px;
 }
 
-.remove-btn{
-    width:100%;
-    padding: 10px 5px 10px 5px;
+.book-btn{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.book-btn button{
+    padding: 5px;
+    border-radius: 5px;
     border: none;
-    font-size: 1.2rem;
-    border-radius: 10px;
-    background-color: var(--btn-hover-color);
+    background-color: var(--btn-card);
 }
 
 
