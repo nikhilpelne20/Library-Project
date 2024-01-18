@@ -12,35 +12,23 @@ class Book {
   setRead(status){
     this.read = status
   }
-
 }
 
-const Book1 = new Book(
-    "A Passage to India", 
-    "E.M. Forster", 
-    234, 
-    true
-);
+
+const storedLibrary = localStorage.getItem('MyLibrary');
+const myLibrary = storedLibrary ? JSON.parse(storedLibrary) : [];
 
 
-const Book2 = new Book(
-  "Far from the Madding Crowd",
-  "Thomas Hardy",
-  321,
-  false
-);
-const Book3 = new Book(
-  "Far from the Madding Crowd",
-  "Thomas Hardy",
-  321,
-  false
-);
+myLibrary.forEach((bookData, index) => {
+    myLibrary[index] = new Book(bookData.title, bookData.author, bookData.pages, bookData.read);
+});
 
-const myLibrary = [];
+function updateLocalStorage(){
+    localStorage.setItem('MyLibrary',JSON.stringify(myLibrary))
+}
 
-myLibrary.push(Book1);
-myLibrary.push(Book2);
-myLibrary.push(Book3);
+
+
 
 myLibrary.forEach((Book) => {
   createBookCard(Book);
@@ -49,6 +37,7 @@ myLibrary.forEach((Book) => {
 
 function createBookCard(book) {
   const bookCardSection = document.getElementById("cardContainer");
+  const readButtonText = book.getRead() ? "Read" : "Not Read";
   bookCardSection.innerHTML += 
   `<div class="card-section">
     <div class="bookTitle">
@@ -61,13 +50,12 @@ function createBookCard(book) {
         <p>${book.pages}</p>
     </div>
     <div class="book-btn">
-        <button id="read-btn" read-btn-data>Not Read</button>
+        <button id="read-btn" read-btn-data>${readButtonText}</button>
         <button id="remove-btn" remove-btn-data>Remove Book</button>
     </div>
 </div>`;
 addBtnEvent()
 }
-
 
 
 function addBtnEvent(){
@@ -82,92 +70,60 @@ function addBtnEvent(){
 }
 
 
-function toggleRead(){
-    console.log("Read")
+function toggleRead(e){
+    const cardDiv = e.target.closest('.card-section');
+    const index = Array.from(cardDiv.parentNode.children).indexOf(cardDiv);
+
+    myLibrary[index].setRead(!myLibrary[index].getRead());
+    updateLocalStorage()
+
+    const readBtn = cardDiv.querySelector('#read-btn');
+    readBtn.textContent = myLibrary[index].getRead() ? 'Read' : 'Not Read';
+    
 }
 
-function removeBook(){
-    console.log("Book removed")
+function removeBook(e){
+    const cardDiv = e.target.closest('.card-section');
+    const index = Array.from(cardDiv.parentNode.children).indexOf(cardDiv)
+
+    myLibrary.splice(index,1)
+    updateLocalStorage()
+    clearAllBooks();
 }
 
-function displayBook(Book) {
-  var bookCard = document.createElement("div");
-  bookCard.classList = "card";
-
-  var bookTitle = document.createElement("p");
-  bookTitle.classList = "title-heading";
-  bookTitle.textContent = `${Book.title}`;
-
-  var bookAuthor = document.createElement("p");
-  bookAuthor.classList = "author-heading";
-  bookAuthor.textContent = `- by ${Book.author}`;
-
-  var bookPages = document.createElement("p");
-  bookPages.textContent = `${Book.pages} pages`;
-
-  var readBook = document.createElement("button");
-  readBook.classList = "read-btn";
-  readBook.textContent = Book.read ? "read" : "Not read";
-  readBook.style.backgroundColor = Book.read ? "#4caf4f3e" : "#bf3e3e3e";
-
-  readBook.addEventListener("click", function () {
-    Book.toggleReadStatus();
-    readBook.textContent = Book.read ? "read" : "Not read";
-    readBook.style.backgroundColor = Book.read ? "#4caf4f3e" : "#bf3e3e3e";
-  });
-
-  var removeBook = document.createElement("button");
-  removeBook.classList = "remove-btn";
-  removeBook.textContent = "Remove Book";
-
-  removeBook.addEventListener("click", function () {
-    var index = myLibrary.indexOf(Book);
-    if (index !== -1) {
-      myLibrary.splice(index, 1); // Remove the book from the array
-      bookCard.remove();
-    }
-  });
-
-  var cardBody = document.getElementById("cardContainer");
-  bookCard.appendChild(bookTitle);
-  bookCard.appendChild(bookAuthor);
-  bookCard.appendChild(bookPages);
-  bookCard.appendChild(readBook);
-  bookCard.appendChild(removeBook);
-  cardBody.appendChild(bookCard);
+function clearAllBooks(){
+    const bookCardSection = document.getElementById("cardContainer");
+    bookCardSection.innerHTML =''
+    getAllBooks()
 }
 
-Book.prototype.toggleReadStatus = function () {
-  this.read = !this.read;
-};
+function getAllBooks(){
+    myLibrary.forEach((Book) => {
+        createBookCard(Book);
+    });
+}
 
-var popupForm = document.getElementById("popupForm");
+
+const popupForm = document.getElementById("popupForm");
 
 popupForm.addEventListener("submit", function (event) {
   event.preventDefault();
-  var bookName = document.getElementById("bookName").value;
-  var bookAuthor = document.getElementById("bookAuthor").value;
-  var pages = document.getElementById("pages").value;
-  var readStatus = document.getElementById("readStatus").checked;
-  console.log(bookName, bookAuthor, pages, readStatus);
+  const bookName = document.getElementById("bookName").value;
+  const bookAuthor = document.getElementById("bookAuthor").value;
+  const pages = document.getElementById("pages").value;
+  const readStatus = document.getElementById("readStatus").checked;
+//   console.log(bookName, bookAuthor, pages, readStatus);
   toggle();
 
-  var book = new Book(bookName, bookAuthor, pages, readStatus);
-  myLibrary.push(book);
+  let book = new Book(bookName, bookAuthor, pages, readStatus);
+  myLibrary.push(book)
+  updateLocalStorage()
 
   document.getElementById("popupForm").reset();
-
-  // Clear the existing card display
-  var cardContainer = document.getElementById("cardContainer");
-  cardContainer.innerHTML = "";
-
-  //re populate the books
-  myLibrary.forEach((Book) => {
-    displayBook(Book);
-  });
+  clearAllBooks()
 });
 
 function toggle() {
-  var formOpen = document.getElementById("popup");
-  formOpen.style.display = popup.style.display === "block" ? "none" : "block";
+    var formOpen = document.getElementById("popup");
+    formOpen.style.display = formOpen.style.display === "block" ? "none" : "block";
 }
